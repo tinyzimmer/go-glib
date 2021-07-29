@@ -226,12 +226,11 @@ func (v *Object) SetPropertyValue(name string, value *Value) error {
 	if err != nil {
 		return err
 	}
-	propBaseType := propType
-	for ; propBaseType.Depth() > 1; propBaseType = propBaseType.Parent() {
-	}
-	switch propBaseType{
-	case TYPE_ENUM:
-		if valType == TYPE_INT {
+	switch valType {
+	case TYPE_INT:
+		for ; propType.Depth() > 1; propType = propType.Parent() {
+		}
+		if propType == TYPE_ENUM {
 			break
 		}
 		fallthrough
