@@ -236,7 +236,7 @@ func (v *Object) SetPropertyValue(name string, value *Value) error {
 		fallthrough
 	default:
 		if valType != propType {
-			return fmt.Errorf("Invalid type %s for property %s", value.TypeName(), name)
+			return fmt.Errorf("Invalid type %s for property %s(%s)", value.TypeName(), name, propType.Name())
 		}
 	}
 	cstr := C.CString(name)
