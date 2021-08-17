@@ -175,7 +175,7 @@ func RegisterGoType(name string, goObject interface{}, extends Extendable, inter
 	// Register class data if the object implements a GoObjectSubclass
 	var cd *classData
 	if object, ok := goObject.(GoObjectSubclass); ok {
-		cd := &classData{
+		cd = &classData{
 			elem: object,
 			ext:  extends,
 		}
@@ -201,7 +201,7 @@ func RegisterGoType(name string, goObject interface{}, extends Extendable, inter
 	)
 
 	// Add interfaces if the go object implements a GoObjectSubclass
-	if _, ok := goObject.(GoObjectSubclass); ok {
+	if cd != nil {
 		for _, iface := range interfaces {
 			gofuncPtr := gopointer.Save(&interfaceData{
 				iface:     iface,
