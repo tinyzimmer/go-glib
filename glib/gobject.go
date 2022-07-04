@@ -227,8 +227,18 @@ func (v *Object) SetPropertyValue(name string, value *Value) error {
 	if err != nil {
 		return err
 	}
-	if valType != propType {
-		return fmt.Errorf("Invalid type %s for property %s", value.TypeName(), name)
+	switch valType {
+	case TYPE_INT:
+		for ; propType.Depth() > 1; propType = propType.Parent() {
+		}
+		if propType == TYPE_ENUM {
+			break
+		}
+		fallthrough
+	default:
+		if valType != propType {
+			return fmt.Errorf("Invalid type %s for property %s(%s)", value.TypeName(), name, propType.Name())
+		}
 	}
 	cstr := C.CString(name)
 	defer C.free(unsafe.Pointer(cstr))
